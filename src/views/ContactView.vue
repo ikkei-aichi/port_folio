@@ -1,121 +1,87 @@
 <template>
-  <section
-    class="contact-section"
-    :class="{
-      'is-dark': isDarkTheme,
-      'is-light': !isDarkTheme,
-    }"
-    :style="contactThemeStyle"
-  >
-    <div class="contact-bg"></div>
-
-    <div class="contact-container">
-      <div class="contact-header contact-reveal" :ref="setContactRef">
+  <section class="contact-section app-page" :style="pageThemeStyle">
+    <div class="contact-container app-container">
+      <div class="page-header">
         <n-tag round type="primary" size="large"> Contact </n-tag>
 
         <h2>
           <n-gradient-text type="primary"> お問い合わせ </n-gradient-text>
         </h2>
 
-        <p>制作のご相談、採用について、ポートフォリオの感想など、 お気軽にご連絡ください。</p>
+        <p>制作のご相談、採用について、ポートフォリオの感想など、お気軽にご連絡ください。</p>
       </div>
 
-      <div class="contact-layout">
-        <div class="contact-info">
-          <n-card class="contact-card contact-reveal" :bordered="false" :ref="setContactRef">
-            <div class="info-label">Message</div>
+      <n-grid responsive="screen" cols="1 m:2" :x-gap="28" :y-gap="28">
+        <n-gi>
+          <n-card class="info-card reveal" :bordered="false">
+            <n-tag round type="primary"> Message </n-tag>
 
             <h3>一緒に、いいものを作りましょう。</h3>
 
             <p>
-              フロントエンド開発、Vueを使ったWebアプリ制作、
-              UI改善、ポートフォリオ制作などに興味があります。 小さな相談でも歓迎です。
+              フロントエンド開発、Vueを使ったWebアプリ制作、UI改善などに興味があります。
+              小さな相談でも歓迎です。
             </p>
 
-            <div class="contact-mail-box">
+            <div class="mail-box">
               <span>Email</span>
-
               <strong>{{ contactEmail }}</strong>
 
-              <div class="mail-actions">
+              <n-space :wrap="true" class="mail-actions">
                 <n-button type="primary" round @click="copyEmail"> メールをコピー </n-button>
 
                 <n-button round tag="a" :href="`mailto:${contactEmail}`"> メールを開く </n-button>
-              </div>
+              </n-space>
             </div>
           </n-card>
 
-          <div class="contact-links">
-            <n-card
-              v-for="(link, index) in contactLinks"
-              :key="link.label"
-              class="link-card contact-reveal"
-              :bordered="false"
-              :ref="setContactRef"
-              :style="{ '--delay': `${index * 70}ms` }"
-              tag="a"
-              :href="link.url"
-              target="_blank"
-            >
-              <div class="link-icon">
-                {{ link.icon }}
-              </div>
+          <n-grid responsive="screen" cols="1 s:2" :x-gap="16" :y-gap="16" class="links-grid">
+            <n-gi v-for="link in contactLinks" :key="link.label">
+              <a class="link-card" :href="link.url" target="_blank">
+                <span>{{ link.icon }}</span>
+                <div>
+                  <strong>{{ link.label }}</strong>
+                  <small>{{ link.text }}</small>
+                </div>
+              </a>
+            </n-gi>
+          </n-grid>
+        </n-gi>
 
-              <div>
-                <strong>{{ link.label }}</strong>
-                <span>{{ link.text }}</span>
-              </div>
-            </n-card>
-          </div>
-        </div>
+        <n-gi>
+          <n-card class="form-card reveal" :bordered="false">
+            <h3>ご連絡フォーム</h3>
 
-        <n-card class="form-card contact-reveal" :bordered="false" :ref="setContactRef">
-          <div class="form-title">
-            <span>Send Message</span>
-            <strong>ご連絡フォーム</strong>
-          </div>
+            <n-form ref="formRef" :model="formValue" :rules="rules" label-placement="top">
+              <n-form-item label="お名前" path="name">
+                <n-input v-model:value="formValue.name" placeholder="例：宮田 太郎" size="large" />
+              </n-form-item>
 
-          <n-form ref="formRef" :model="formValue" :rules="rules" label-placement="top">
-            <n-form-item label="お名前" path="name">
-              <n-input
-                v-model:value="formValue.name"
-                placeholder="例：宮田 太郎"
-                size="large"
-                round
-              />
-            </n-form-item>
+              <n-form-item label="メールアドレス" path="email">
+                <n-input
+                  v-model:value="formValue.email"
+                  placeholder="example@example.com"
+                  size="large"
+                />
+              </n-form-item>
 
-            <n-form-item label="メールアドレス" path="email">
-              <n-input
-                v-model:value="formValue.email"
-                placeholder="example@example.com"
-                size="large"
-                round
-              />
-            </n-form-item>
+              <n-form-item label="件名" path="subject">
+                <n-input
+                  v-model:value="formValue.subject"
+                  placeholder="お問い合わせの件名"
+                  size="large"
+                />
+              </n-form-item>
 
-            <n-form-item label="件名" path="subject">
-              <n-input
-                v-model:value="formValue.subject"
-                placeholder="お問い合わせの件名"
-                size="large"
-                round
-              />
-            </n-form-item>
+              <n-form-item label="お問い合わせ内容" path="message">
+                <n-input
+                  v-model:value="formValue.message"
+                  type="textarea"
+                  placeholder="ご相談内容を入力してください"
+                  :autosize="{ minRows: 6, maxRows: 10 }"
+                />
+              </n-form-item>
 
-            <n-form-item label="お問い合わせ内容" path="message">
-              <n-input
-                v-model:value="formValue.message"
-                type="textarea"
-                placeholder="ご相談内容を入力してください"
-                :autosize="{
-                  minRows: 6,
-                  maxRows: 10,
-                }"
-              />
-            </n-form-item>
-
-            <div class="form-actions">
               <n-button
                 type="primary"
                 size="large"
@@ -126,18 +92,16 @@
               >
                 送信する
               </n-button>
-
-              <p>現在はメールアプリを起動して送信する形式です。</p>
-            </div>
-          </n-form>
-        </n-card>
-      </div>
+            </n-form>
+          </n-card>
+        </n-gi>
+      </n-grid>
     </div>
   </section>
 </template>
 
 <script setup>
-import { computed, ref, reactive, onMounted, onBeforeUnmount, onBeforeUpdate } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import { useMessage } from 'naive-ui'
 import { useUserStore } from '@/stores/userStore'
 import { colorThemeMap } from '@/theme/colorThemes'
@@ -151,25 +115,25 @@ const contactLinks = [
   {
     icon: '🐙',
     label: 'GitHub',
-    text: 'コードや個人開発はこちら',
+    text: 'コードや個人開発',
     url: 'https://github.com',
   },
   {
     icon: '𝕏',
-    label: 'X / Twitter',
-    text: '日々の学びや制作メモ',
+    label: 'X',
+    text: '日々の学び',
     url: 'https://x.com',
   },
   {
     icon: '💼',
     label: 'LinkedIn',
-    text: '職務経歴やつながり',
+    text: '職務経歴',
     url: 'https://linkedin.com',
   },
   {
     icon: '📝',
     label: 'Blog',
-    text: '技術記事や制作記録',
+    text: '技術記事',
     url: 'https://example.com',
   },
 ]
@@ -260,7 +224,7 @@ const copyEmail = async () => {
 }
 
 const currentTheme = computed(() => {
-  return colorThemeMap[userStore.colorTheme] || colorThemeMap['dark-blue']
+  return colorThemeMap[userStore.colorTheme] ?? colorThemeMap['dark-blue']
 })
 
 const primaryColor = computed(() => {
@@ -271,446 +235,156 @@ const isDarkTheme = computed(() => {
   return Boolean(currentTheme.value.naiveTheme)
 })
 
-const contactThemeStyle = computed(() => {
-  const primaryRgb = hexToRgb(primaryColor.value)
-
-  if (isDarkTheme.value) {
-    return {
-      '--contact-primary': primaryColor.value,
-      '--contact-primary-rgb': primaryRgb,
-      '--contact-bg-1': '#050816',
-      '--contact-bg-2': '#0f172a',
-      '--contact-bg-3': '#020617',
-      '--contact-card-bg': 'rgba(15, 23, 42, 0.74)',
-      '--contact-card-bg-hover': 'rgba(15, 23, 42, 0.92)',
-      '--contact-text': 'rgba(255, 255, 255, 0.92)',
-      '--contact-muted': 'rgba(255, 255, 255, 0.66)',
-      '--contact-border': 'rgba(255, 255, 255, 0.1)',
-      '--contact-grid': 'rgba(255, 255, 255, 0.04)',
-    }
-  }
+const pageThemeStyle = computed(() => {
+  const rgb = hexToRgb(primaryColor.value)
 
   return {
-    '--contact-primary': primaryColor.value,
-    '--contact-primary-rgb': primaryRgb,
-    '--contact-bg-1': '#f8fbff',
-    '--contact-bg-2': '#eef6ff',
-    '--contact-bg-3': '#ffffff',
-    '--contact-card-bg': 'rgba(255, 255, 255, 0.8)',
-    '--contact-card-bg-hover': 'rgba(255, 255, 255, 0.96)',
-    '--contact-text': 'rgba(15, 23, 42, 0.92)',
-    '--contact-muted': 'rgba(15, 23, 42, 0.62)',
-    '--contact-border': 'rgba(15, 23, 42, 0.1)',
-    '--contact-grid': 'rgba(15, 23, 42, 0.055)',
+    '--page-primary': primaryColor.value,
+    '--page-primary-rgb': rgb,
+    '--page-bg': isDarkTheme.value ? '#050816' : '#f8fbff',
+    '--page-bg-2': isDarkTheme.value ? '#0f172a' : '#eef6ff',
+    '--page-card': isDarkTheme.value ? 'rgba(15,23,42,0.76)' : 'rgba(255,255,255,0.82)',
+    '--page-card-hover': isDarkTheme.value ? 'rgba(15,23,42,0.92)' : 'rgba(255,255,255,0.96)',
+    '--page-text': isDarkTheme.value ? 'rgba(255,255,255,0.92)' : 'rgba(15,23,42,0.92)',
+    '--page-muted': isDarkTheme.value ? 'rgba(255,255,255,0.66)' : 'rgba(15,23,42,0.62)',
+    '--page-border': isDarkTheme.value ? 'rgba(255,255,255,0.1)' : 'rgba(15,23,42,0.1)',
   }
 })
 
-const hexToRgb = (hex) => {
-  let value = hex.replace('#', '')
-
-  if (value.length === 3) {
-    value = value
-      .split('')
-      .map((char) => char + char)
-      .join('')
-  }
-
+function hexToRgb(hex) {
+  const value = hex.replace('#', '')
   const r = parseInt(value.slice(0, 2), 16)
   const g = parseInt(value.slice(2, 4), 16)
   const b = parseInt(value.slice(4, 6), 16)
 
   return `${r} ${g} ${b}`
 }
-
-const contactRefs = ref([])
-let observer = null
-
-const setContactRef = (el) => {
-  if (el) {
-    contactRefs.value.push(el.$el || el)
-  }
-}
-
-onBeforeUpdate(() => {
-  contactRefs.value = []
-})
-
-onMounted(() => {
-  observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible')
-          observer.unobserve(entry.target)
-        }
-      })
-    },
-    {
-      threshold: 0.16,
-      rootMargin: '0px 0px -10% 0px',
-    },
-  )
-
-  contactRefs.value.forEach((el) => {
-    observer.observe(el)
-  })
-})
-
-onBeforeUnmount(() => {
-  if (observer) {
-    observer.disconnect()
-  }
-})
 </script>
 
 <style scoped>
 .contact-section {
-  position: relative;
-  overflow: hidden;
-  padding: 120px 24px;
-  color: var(--contact-text);
-  background:
-    radial-gradient(circle at 12% 12%, rgb(var(--contact-primary-rgb) / 0.25), transparent 34%),
-    radial-gradient(circle at 90% 20%, rgb(var(--contact-primary-rgb) / 0.16), transparent 32%),
-    radial-gradient(circle at 50% 100%, rgb(var(--contact-primary-rgb) / 0.16), transparent 38%),
-    linear-gradient(
-      135deg,
-      var(--contact-bg-1) 0%,
-      var(--contact-bg-2) 48%,
-      var(--contact-bg-3) 100%
-    );
-}
-
-.contact-section::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(var(--contact-grid) 1px, transparent 1px),
-    linear-gradient(90deg, var(--contact-grid) 1px, transparent 1px);
-  background-size: 46px 46px;
-  mask-image: linear-gradient(to bottom, transparent, #000 15%, #000 85%, transparent);
-  pointer-events: none;
-}
-
-.contact-bg {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
-.contact-bg::before,
-.contact-bg::after {
-  content: '';
-  position: absolute;
-  border-radius: 999px;
-  background: rgb(var(--contact-primary-rgb) / 0.14);
-  filter: blur(90px);
-}
-
-.contact-bg::before {
-  top: 18%;
-  left: -120px;
-  width: 380px;
-  height: 380px;
-}
-
-.contact-bg::after {
-  right: -140px;
-  bottom: 12%;
-  width: 440px;
-  height: 440px;
+  width: 100vw;
+  padding: var(--app-section-y) var(--app-page-x);
+  color: var(--page-text);
 }
 
 .contact-container {
-  position: relative;
-  z-index: 1;
-  max-width: 1180px;
+  width: min(100%, var(--app-container-width));
   margin: 0 auto;
 }
 
-.contact-header {
-  max-width: 880px;
-  margin: 0 auto 64px;
+.page-header {
+  width: min(100%, 880px);
+  margin: 0 auto clamp(48px, 7vw, 72px);
   text-align: center;
 }
 
-.contact-header h2 {
+.page-header h2 {
   margin: 24px 0 16px;
-  font-size: clamp(42px, 7vw, 86px);
+  font-size: clamp(40px, 7vw, 86px);
   line-height: 1;
-  letter-spacing: 0.04em;
 }
 
-.contact-header p {
+.page-header p {
   margin: 0;
-  color: var(--contact-muted);
-  font-size: 16px;
+  color: var(--page-muted);
   line-height: 1.9;
 }
 
-.contact-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-  gap: 28px;
-  align-items: start;
-}
-
-.contact-info {
-  display: grid;
-  gap: 24px;
-}
-
-.contact-card,
+.info-card,
 .form-card,
 .link-card {
-  position: relative;
-  overflow: hidden;
-  border-radius: 26px;
-  background: var(--contact-card-bg);
-  box-shadow:
-    0 24px 80px rgba(0, 0, 0, 0.22),
-    inset 0 1px 0 var(--contact-border);
-  backdrop-filter: blur(18px);
+  border-radius: 24px;
+  background: var(--page-card);
+  border: 1px solid var(--page-border);
+  backdrop-filter: blur(16px);
 }
 
-.contact-card::before,
-.form-card::before,
-.link-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(
-    135deg,
-    rgb(var(--contact-primary-rgb) / 0.66),
-    rgb(var(--contact-primary-rgb) / 0.12),
-    var(--contact-border)
-  );
-  mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  mask-composite: exclude;
-  pointer-events: none;
-}
-
-.contact-card :deep(.n-card__content),
-.form-card :deep(.n-card__content),
-.link-card :deep(.n-card__content) {
-  position: relative;
-  z-index: 1;
-}
-
-.info-label,
-.form-title span {
-  color: var(--contact-primary);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.contact-card h3 {
-  margin: 16px 0 14px;
-  color: var(--contact-text);
+.info-card h3,
+.form-card h3 {
+  margin: 20px 0 14px;
+  color: var(--page-text);
   font-size: clamp(28px, 4vw, 44px);
-  line-height: 1.25;
-  letter-spacing: 0.03em;
 }
 
-.contact-card p {
-  margin: 0;
-  color: var(--contact-muted);
-  font-size: 15px;
+.info-card p {
+  color: var(--page-muted);
   line-height: 1.9;
 }
 
-.contact-mail-box {
+.mail-box {
   margin-top: 28px;
-  padding: 20px;
-  border: 1px solid var(--contact-border);
-  border-radius: 22px;
-  background: rgb(var(--contact-primary-rgb) / 0.07);
+  padding: 18px;
+  border-radius: 18px;
+  background: rgb(var(--page-primary-rgb) / 0.08);
+  border: 1px solid var(--page-border);
 }
 
-.contact-mail-box span {
+.mail-box span {
   display: block;
-  color: var(--contact-muted);
-  font-size: 13px;
+  color: var(--page-muted);
 }
 
-.contact-mail-box strong {
+.mail-box strong {
   display: block;
   margin-top: 8px;
-  color: var(--contact-text);
-  font-size: 18px;
+  color: var(--page-text);
   word-break: break-all;
 }
 
 .mail-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 18px;
+  margin-top: 16px;
 }
 
-.contact-links {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
+.links-grid {
+  margin-top: 16px;
 }
 
 .link-card {
-  display: block;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 18px;
   color: inherit;
   text-decoration: none;
   transition:
-    transform 0.35s ease,
-    background 0.35s ease,
-    box-shadow 0.35s ease;
+    transform 0.3s ease,
+    background 0.3s ease;
 }
 
 .link-card:hover {
   transform: translateY(-6px);
-  background: var(--contact-card-bg-hover);
-  box-shadow:
-    0 30px 90px rgba(0, 0, 0, 0.26),
-    0 0 36px rgb(var(--contact-primary-rgb) / 0.14);
+  background: var(--page-card-hover);
 }
 
-.link-card :deep(.n-card__content) {
-  display: flex;
-  gap: 14px;
-  align-items: center;
-}
-
-.link-icon {
-  display: grid;
-  place-items: center;
-  flex: 0 0 auto;
-  width: 46px;
-  height: 46px;
-  border-radius: 16px;
-  background: rgb(var(--contact-primary-rgb) / 0.12);
-  font-size: 22px;
-  box-shadow: 0 0 26px rgb(var(--contact-primary-rgb) / 0.12);
+.link-card > span {
+  font-size: 26px;
 }
 
 .link-card strong {
   display: block;
-  color: var(--contact-text);
-  font-size: 15px;
+  color: var(--page-text);
 }
 
-.link-card span {
-  display: block;
-  margin-top: 4px;
-  color: var(--contact-muted);
-  font-size: 12px;
-  line-height: 1.5;
+.link-card small {
+  color: var(--page-muted);
 }
 
-.form-title {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin-bottom: 26px;
+.reveal {
+  animation: fadeUp 0.75s both;
 }
 
-.form-title strong {
-  color: var(--contact-text);
-  font-size: 28px;
-}
-
-.form-card :deep(.n-form-item-label) {
-  color: var(--contact-text);
-  font-weight: 700;
-}
-
-.form-card :deep(.n-input) {
-  --n-border-radius: 16px;
-}
-
-.form-actions {
-  margin-top: 8px;
-}
-
-.form-actions p {
-  margin: 12px 0 0;
-  color: var(--contact-muted);
-  font-size: 12px;
-  text-align: center;
-}
-
-.contact-reveal {
-  opacity: 0;
-  transform: translateY(52px) scale(0.97);
-  filter: blur(10px);
-  transition:
-    opacity 0.8s ease,
-    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-    filter 0.8s ease,
-    background 0.35s ease,
-    box-shadow 0.35s ease;
-  transition-delay: var(--delay, 0ms);
-}
-
-.contact-reveal.is-visible {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  filter: blur(0);
-}
-
-@media (max-width: 960px) {
-  .contact-layout {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 640px) {
-  .contact-section {
-    padding: 88px 18px;
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+    filter: blur(8px);
   }
 
-  .contact-header {
-    text-align: left;
-  }
-
-  .contact-header h2 {
-    font-size: clamp(40px, 12vw, 64px);
-  }
-
-  .contact-links {
-    grid-template-columns: 1fr;
-  }
-
-  .contact-card,
-  .form-card,
-  .link-card {
-    border-radius: 22px;
-  }
-
-  .mail-actions {
-    flex-direction: column;
-  }
-
-  .mail-actions .n-button {
-    width: 100%;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .contact-reveal,
-  .link-card {
-    transition: none;
-  }
-
-  .contact-reveal {
+  to {
     opacity: 1;
-    transform: none;
-    filter: none;
+    transform: translateY(0);
+    filter: blur(0);
   }
 }
 </style>

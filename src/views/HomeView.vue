@@ -1,169 +1,151 @@
 <template>
-  <main
-    class="home-page"
-    :class="{
-      'is-dark': isDarkTheme,
-      'is-light': !isDarkTheme,
-    }"
-    :style="homeThemeStyle"
-    @mousemove="handleMouseMove"
-  >
+  <main class="home-page" :style="homeThemeStyle" @mousemove="handleMouseMove">
     <div class="home-bg">
       <span class="orb orb-1"></span>
       <span class="orb orb-2"></span>
       <span class="orb orb-3"></span>
-      <span class="grid-light"></span>
     </div>
 
     <section class="hero-section">
-      <div class="hero-container">
-        <div class="hero-content reveal-item" :ref="setRevealRef">
-          <n-tag round type="primary" size="large" class="hero-badge">
-            Welcome to my portfolio
-          </n-tag>
+      <div class="container">
+        <n-grid
+          responsive="screen"
+          cols="1 m:2"
+          :x-gap="40"
+          :y-gap="40"
+          item-responsive
+          class="hero-grid"
+        >
+          <n-gi>
+            <div class="hero-copy reveal-item" :ref="setRevealRef">
+              <n-tag round type="primary" size="large"> Welcome to my portfolio </n-tag>
 
-          <h1>
-            <span>想いを、</span>
-            <span>
-              使いやすい
-              <n-gradient-text
-                :gradient="{
-                  from: primaryColor,
-                  to: secondaryColor,
-                }"
-              >
-                Web体験
-              </n-gradient-text>
-              に。
-            </span>
-          </h1>
+              <h1>
+                想いを、<br />
+                使いやすい
+                <n-gradient-text
+                  :gradient="{
+                    from: primaryColor,
+                    to: secondaryColor,
+                  }"
+                >
+                  Web体験
+                </n-gradient-text>
+                に。
+              </h1>
 
-          <div class="hero-role">
-            <span class="role-label">I create</span>
+              <div class="hero-role">
+                <span>I create</span>
 
-            <transition name="word-fade" mode="out-in">
-              <strong :key="currentWord">
-                {{ currentWord }}
-              </strong>
-            </transition>
-          </div>
+                <transition name="word-fade" mode="out-in">
+                  <strong :key="currentWord">
+                    {{ currentWord }}
+                  </strong>
+                </transition>
+              </div>
 
-          <p class="hero-description">
-            Vue / Naive UI / JavaScript を中心に、見た目の美しさだけでなく、
-            使う人が迷わず気持ちよく操作できるWebサイト・Webアプリを制作します。
-          </p>
+              <p>
+                Vue / Naive UI / JavaScript を中心に、見た目の美しさだけでなく、
+                使う人が迷わず気持ちよく操作できるWebサイト・Webアプリを制作します。
+              </p>
 
-          <div class="hero-actions">
-            <n-button type="primary" size="large" round tag="router-link" to="/projects">
-              Projectsを見る
-            </n-button>
+              <n-space class="hero-actions" :size="14" :wrap="true">
+                <n-button type="primary" size="large" round tag="router-link" to="/projects">
+                  Projectsを見る
+                </n-button>
 
-            <n-button size="large" round tag="router-link" to="/contact"> Contact </n-button>
-          </div>
+                <n-button size="large" round tag="router-link" to="/contact"> Contact </n-button>
+              </n-space>
 
-          <div class="hero-stats">
-            <div v-for="stat in stats" :key="stat.label" class="stat-card">
-              <strong>
-                <n-number-animation :from="0" :to="stat.value" :duration="1800" />
-                <span>{{ stat.suffix }}</span>
-              </strong>
+              <n-grid responsive="screen" cols="1 s:3" :x-gap="14" :y-gap="14" class="stats-grid">
+                <n-gi v-for="stat in stats" :key="stat.label">
+                  <div class="stat-card">
+                    <strong>
+                      <n-number-animation :from="0" :to="stat.value" :duration="1600" />
+                      {{ stat.suffix }}
+                    </strong>
 
-              <small>{{ stat.label }}</small>
+                    <span>{{ stat.label }}</span>
+                  </div>
+                </n-gi>
+              </n-grid>
             </div>
-          </div>
-        </div>
+          </n-gi>
 
-        <div class="hero-visual reveal-item" :ref="setRevealRef">
-          <div class="visual-ring ring-1"></div>
-          <div class="visual-ring ring-2"></div>
-          <div class="visual-ring ring-3"></div>
+          <n-gi>
+            <div class="hero-visual reveal-item" :ref="setRevealRef">
+              <div class="ring ring-1"></div>
+              <div class="ring ring-2"></div>
 
-          <div class="profile-card">
-            <div class="profile-top">
-              <div class="profile-avatar">
-                <span>一</span>
+              <div class="profile-card">
+                <div class="profile-top">
+                  <div class="profile-avatar">一</div>
+
+                  <div>
+                    <strong>Ikkei Miyata</strong>
+                    <span>Frontend Developer</span>
+                  </div>
+                </div>
+
+                <div class="code-box">
+                  <span class="code-primary">const</span>
+                  mindset =
+                  <span class="code-secondary">'楽しく、丁寧に、使いやすく'</span>
+                </div>
+
+                <div class="meter">
+                  <div>
+                    <span>Creative Energy</span>
+                    <strong>98%</strong>
+                  </div>
+
+                  <div class="meter-line">
+                    <span></span>
+                  </div>
+                </div>
               </div>
 
-              <div>
-                <strong>Ikkei Miyata</strong>
-                <small>Frontend Developer</small>
-              </div>
-            </div>
-
-            <div class="profile-code">
-              <div>
-                <span class="code-key">const</span>
-                <span class="code-name"> mindset </span>
-                <span>=</span>
-              </div>
-
-              <div>
-                <span class="code-string">'楽しく、丁寧に、使いやすく'</span>
-              </div>
-            </div>
-
-            <div class="profile-meter">
-              <div class="meter-head">
-                <span>Creative Energy</span>
-                <strong>98%</strong>
-              </div>
-
-              <div class="meter-bar">
-                <span></span>
+              <div v-for="chip in chips" :key="chip.label" class="chip" :class="chip.class">
+                {{ chip.icon }} {{ chip.label }}
               </div>
             </div>
-          </div>
-
-          <div
-            v-for="chip in floatingChips"
-            :key="chip.label"
-            class="floating-chip"
-            :class="chip.class"
-          >
-            <span>{{ chip.icon }}</span>
-            {{ chip.label }}
-          </div>
-        </div>
-      </div>
-
-      <div class="scroll-guide">
-        <span>Scroll</span>
-        <div></div>
+          </n-gi>
+        </n-grid>
       </div>
     </section>
 
-    <section class="quick-section">
-      <div class="section-heading reveal-item" :ref="setRevealRef">
-        <n-tag round type="primary"> Explore </n-tag>
+    <section class="section">
+      <div class="container">
+        <div class="section-title reveal-item" :ref="setRevealRef">
+          <n-tag round type="primary"> Explore </n-tag>
 
-        <h2>
-          <n-gradient-text type="primary"> このポートフォリオで見てほしいこと </n-gradient-text>
-        </h2>
+          <h2>
+            <n-gradient-text type="primary"> このポートフォリオで見てほしいこと </n-gradient-text>
+          </h2>
 
-        <p>私の歩み、制作物、スキル、そしてこれからの挑戦をまとめています。</p>
-      </div>
+          <p>私の歩み、制作物、スキル、そしてこれからの挑戦をまとめています。</p>
+        </div>
 
-      <div class="quick-grid">
-        <RouterLink
-          v-for="(item, index) in quickLinks"
-          :key="item.to"
-          :to="item.to"
-          class="quick-card reveal-item"
-          :ref="setRevealRef"
-          :style="{ '--delay': `${index * 90}ms` }"
-        >
-          <div class="quick-icon">
-            {{ item.icon }}
-          </div>
+        <n-grid responsive="screen" cols="1 s:2 l:4" :x-gap="22" :y-gap="22">
+          <n-gi v-for="(item, index) in quickLinks" :key="item.to">
+            <RouterLink
+              :to="item.to"
+              class="quick-card reveal-item"
+              :ref="setRevealRef"
+              :style="{ '--delay': `${index * 80}ms` }"
+            >
+              <div class="quick-icon">
+                {{ item.icon }}
+              </div>
 
-          <div>
-            <span>{{ item.en }}</span>
-            <h3>{{ item.title }}</h3>
-            <p>{{ item.description }}</p>
-          </div>
+              <span>{{ item.en }}</span>
+              <h3>{{ item.title }}</h3>
+              <p>{{ item.description }}</p>
 
-          <strong class="quick-arrow">→</strong>
-        </RouterLink>
+              <strong>→</strong>
+            </RouterLink>
+          </n-gi>
+        </n-grid>
       </div>
     </section>
 
@@ -177,71 +159,84 @@
       </div>
     </section>
 
-    <section class="feature-section">
-      <div class="feature-container">
-        <div class="feature-copy reveal-item" :ref="setRevealRef">
-          <n-tag round type="primary"> Philosophy </n-tag>
+    <section class="section">
+      <div class="container">
+        <n-grid responsive="screen" cols="1 m:2" :x-gap="42" :y-gap="32" item-responsive>
+          <n-gi>
+            <div class="feature-copy reveal-item" :ref="setRevealRef">
+              <n-tag round type="primary"> Philosophy </n-tag>
 
-          <h2>
-            見た目の良さと、<br />
-            使いやすさのちょうど真ん中。
-          </h2>
+              <h2>
+                見た目の良さと、<br />
+                使いやすさのちょうど真ん中。
+              </h2>
 
-          <p>
-            ただ派手なだけではなく、ユーザーが自然に理解できる構成、
-            気持ちよく操作できる余白、目的地へ迷わず進める導線を大切にしています。
-            小さなアニメーションや色の変化にも意味を持たせ、印象に残る体験を作ります。
-          </p>
+              <p>
+                ただ派手なだけではなく、ユーザーが自然に理解できる構成、
+                気持ちよく操作できる余白、目的地へ迷わず進める導線を大切にしています。
+              </p>
 
-          <div class="feature-actions">
-            <n-button type="primary" round size="large" tag="router-link" to="/skills">
-              Skill Set
-            </n-button>
+              <n-space :size="14" :wrap="true">
+                <n-button type="primary" round size="large" tag="router-link" to="/skills">
+                  Skill Set
+                </n-button>
 
-            <n-button round size="large" tag="router-link" to="/history"> History </n-button>
-          </div>
-        </div>
-
-        <div class="feature-cards">
-          <n-card
-            v-for="(feature, index) in features"
-            :key="feature.title"
-            class="feature-card reveal-item"
-            :bordered="false"
-            :ref="setRevealRef"
-            :style="{ '--delay': `${index * 100}ms` }"
-          >
-            <div class="feature-icon">
-              {{ feature.icon }}
+                <n-button round size="large" tag="router-link" to="/history"> History </n-button>
+              </n-space>
             </div>
+          </n-gi>
 
-            <h3>{{ feature.title }}</h3>
-            <p>{{ feature.description }}</p>
-          </n-card>
-        </div>
+          <n-gi>
+            <n-grid responsive="screen" cols="1 s:2" :x-gap="20" :y-gap="20">
+              <n-gi v-for="(feature, index) in features" :key="feature.title">
+                <n-card
+                  class="feature-card reveal-item"
+                  :bordered="false"
+                  :ref="setRevealRef"
+                  :style="{ '--delay': `${index * 80}ms` }"
+                >
+                  <div class="feature-icon">
+                    {{ feature.icon }}
+                  </div>
+
+                  <h3>{{ feature.title }}</h3>
+                  <p>{{ feature.description }}</p>
+                </n-card>
+              </n-gi>
+            </n-grid>
+          </n-gi>
+        </n-grid>
       </div>
     </section>
 
-    <section class="cta-section reveal-item" :ref="setRevealRef">
-      <div class="cta-card">
-        <div>
-          <n-tag round type="primary"> Let's build something </n-tag>
+    <section class="cta-section">
+      <div class="container">
+        <n-card class="cta-card reveal-item" :bordered="false" :ref="setRevealRef">
+          <n-grid responsive="screen" cols="1 m:2" :x-gap="28" :y-gap="24" item-responsive>
+            <n-gi>
+              <n-tag round type="primary"> Let's build something </n-tag>
 
-          <h2>一緒に、いいものを作りませんか？</h2>
+              <h2>一緒に、いいものを作りませんか？</h2>
 
-          <p>
-            制作の相談、採用について、ポートフォリオの感想など、
-            どんなことでもお気軽にご連絡ください。
-          </p>
-        </div>
+              <p>
+                制作の相談、採用について、ポートフォリオの感想など、
+                どんなことでもお気軽にご連絡ください。
+              </p>
+            </n-gi>
 
-        <div class="cta-actions">
-          <n-button type="primary" size="large" round tag="router-link" to="/contact">
-            お問い合わせ
-          </n-button>
+            <n-gi>
+              <n-space justify="end" align="center" :size="14" :wrap="true" class="cta-actions">
+                <n-button type="primary" size="large" round tag="router-link" to="/contact">
+                  お問い合わせ
+                </n-button>
 
-          <n-button size="large" round tag="router-link" to="/projects"> 制作物を見る </n-button>
-        </div>
+                <n-button size="large" round tag="router-link" to="/projects">
+                  制作物を見る
+                </n-button>
+              </n-space>
+            </n-gi>
+          </n-grid>
+        </n-card>
       </div>
     </section>
   </main>
@@ -250,6 +245,7 @@
 <script setup>
 import { computed, ref, onMounted, onBeforeUnmount, onBeforeUpdate } from 'vue'
 import { RouterLink } from 'vue-router'
+
 import { useUserStore } from '@/stores/userStore'
 import { colorThemeMap } from '@/theme/colorThemes'
 
@@ -258,13 +254,7 @@ const userStore = useUserStore()
 const mouseX = ref(50)
 const mouseY = ref(50)
 
-const words = [
-  'Beautiful UI',
-  'Smooth Animation',
-  'Useful Web Apps',
-  'Portfolio Design',
-  'User Experience',
-]
+const words = ['Beautiful UI', 'Smooth Animation', 'Useful Web Apps', 'User Experience']
 
 const currentWordIndex = ref(0)
 let wordTimer = null
@@ -291,26 +281,26 @@ const stats = [
   },
 ]
 
-const floatingChips = [
+const chips = [
   {
     icon: '⚡',
     label: 'Vue 3',
-    class: 'chip-vue',
+    class: 'chip-1',
   },
   {
     icon: '🎨',
     label: 'Naive UI',
-    class: 'chip-ui',
+    class: 'chip-2',
   },
   {
     icon: '🧠',
     label: 'Pinia',
-    class: 'chip-pinia',
+    class: 'chip-3',
   },
   {
     icon: '🚀',
     label: 'Animation',
-    class: 'chip-animation',
+    class: 'chip-4',
   },
 ]
 
@@ -319,28 +309,28 @@ const quickLinks = [
     icon: '📖',
     en: 'History',
     title: 'これまでの歩み',
-    description: '誕生から現在まで、どんな経験を通して今の自分になったのかを紹介します。',
+    description: 'どんな経験を通して今の自分になったのかを紹介します。',
     to: '/history',
   },
   {
     icon: '💻',
     en: 'Projects',
     title: 'かかわったProject',
-    description: '制作・開発・改善に携わったプロジェクトを、担当範囲や技術と一緒に紹介します。',
+    description: '制作・開発・改善に携わったプロジェクトを紹介します。',
     to: '/projects',
   },
   {
     icon: '🛠️',
     en: 'Skills',
     title: 'スキルセット',
-    description: 'フロントエンド、UI設計、状態管理、ツールなど、扱える技術をまとめています。',
+    description: '扱える技術や得意な領域をまとめています。',
     to: '/skills',
   },
   {
     icon: '✉️',
     en: 'Contact',
     title: 'お問い合わせ',
-    description: '制作のご相談、採用、感想などはこちらからお気軽にご連絡ください。',
+    description: '制作の相談、採用、感想などはこちらから。',
     to: '/contact',
   },
 ]
@@ -362,28 +352,27 @@ const features = [
   {
     icon: '💎',
     title: '見た目にこだわる',
-    description:
-      '配色、余白、フォント、アニメーションを丁寧に整え、第一印象で惹きつけるUIを目指します。',
+    description: '配色、余白、フォント、アニメーションを丁寧に整えます。',
   },
   {
     icon: '🧭',
     title: '迷わせない導線',
-    description: 'どこを見ればよいか、次に何をすればよいかが自然に伝わる画面設計を大切にします。',
+    description: '次に何をすればよいかが自然に伝わる画面を目指します。',
   },
   {
     icon: '📱',
     title: 'レスポンシブ対応',
-    description: 'PCでもスマホでも気持ちよく閲覧できるよう、画面幅に合わせて最適化します。',
+    description: 'PCでもスマホでも気持ちよく閲覧できるようにします。',
   },
   {
     icon: '⚙️',
     title: '保守しやすい実装',
-    description: 'Vueのコンポーネント設計やPiniaの状態管理を活用し、拡張しやすい構成を意識します。',
+    description: 'Vueのコンポーネント設計で拡張しやすい構成にします。',
   },
 ]
 
 const currentTheme = computed(() => {
-  return colorThemeMap[userStore.colorTheme] || colorThemeMap['dark-blue']
+  return colorThemeMap[userStore.colorTheme] ?? colorThemeMap['dark-blue']
 })
 
 const primaryColor = computed(() => {
@@ -418,8 +407,8 @@ const homeThemeStyle = computed(() => {
       '--home-bg-1': '#050816',
       '--home-bg-2': '#0f172a',
       '--home-bg-3': '#020617',
-      '--home-card-bg': 'rgba(15, 23, 42, 0.72)',
-      '--home-card-bg-hover': 'rgba(15, 23, 42, 0.92)',
+      '--home-card': 'rgba(15, 23, 42, 0.72)',
+      '--home-card-hover': 'rgba(15, 23, 42, 0.9)',
       '--home-text': 'rgba(255, 255, 255, 0.94)',
       '--home-muted': 'rgba(255, 255, 255, 0.66)',
       '--home-border': 'rgba(255, 255, 255, 0.1)',
@@ -437,8 +426,8 @@ const homeThemeStyle = computed(() => {
     '--home-bg-1': '#f8fbff',
     '--home-bg-2': '#eef6ff',
     '--home-bg-3': '#ffffff',
-    '--home-card-bg': 'rgba(255, 255, 255, 0.78)',
-    '--home-card-bg-hover': 'rgba(255, 255, 255, 0.96)',
+    '--home-card': 'rgba(255, 255, 255, 0.78)',
+    '--home-card-hover': 'rgba(255, 255, 255, 0.96)',
     '--home-text': 'rgba(15, 23, 42, 0.94)',
     '--home-muted': 'rgba(15, 23, 42, 0.64)',
     '--home-border': 'rgba(15, 23, 42, 0.1)',
@@ -523,22 +512,14 @@ function hexToRgb(hex) {
 .home-page {
   position: relative;
   overflow: hidden;
-  min-height: 100vh;
+  min-height: calc(100dvh - var(--app-header-height));
   color: var(--home-text);
-  background:
-    radial-gradient(
-      circle at var(--home-mouse-x) var(--home-mouse-y),
-      rgb(var(--home-primary-rgb) / 0.2),
-      transparent 28%
-    ),
-    linear-gradient(135deg, var(--home-bg-1) 0%, var(--home-bg-2) 48%, var(--home-bg-3) 100%);
 }
 
 .home-bg {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: 0;
 }
 
 .home-bg::before {
@@ -549,29 +530,12 @@ function hexToRgb(hex) {
     linear-gradient(var(--home-grid) 1px, transparent 1px),
     linear-gradient(90deg, var(--home-grid) 1px, transparent 1px);
   background-size: 48px 48px;
-  mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent);
-}
-
-.grid-light {
-  position: absolute;
-  left: var(--home-mouse-x);
-  top: var(--home-mouse-y);
-  width: 360px;
-  height: 360px;
-  border-radius: 999px;
-  background: rgb(var(--home-primary-rgb) / 0.14);
-  filter: blur(80px);
-  transform: translate(-50%, -50%);
-  transition:
-    left 0.18s ease,
-    top 0.18s ease;
 }
 
 .orb {
   position: absolute;
   border-radius: 999px;
   filter: blur(70px);
-  opacity: 0.7;
   animation: floatOrb 10s ease-in-out infinite alternate;
 }
 
@@ -593,8 +557,8 @@ function hexToRgb(hex) {
 }
 
 .orb-3 {
-  left: 38%;
-  bottom: 6%;
+  left: 36%;
+  bottom: 4%;
   width: 320px;
   height: 320px;
   background: rgb(var(--home-primary-rgb) / 0.14);
@@ -602,165 +566,135 @@ function hexToRgb(hex) {
 }
 
 .hero-section,
-.quick-section,
-.feature-section,
-.cta-section,
-.marquee-section {
+.section,
+.cta-section {
   position: relative;
   z-index: 1;
+  padding: var(--app-section-y) var(--app-page-x);
 }
 
 .hero-section {
-  min-height: calc(100vh - 76px);
-  padding: 112px 24px 88px;
+  min-height: calc(100dvh - var(--app-header-height));
   display: grid;
   align-items: center;
 }
 
-.hero-container {
-  display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.95fr);
-  gap: 64px;
-  align-items: center;
-  max-width: 1220px;
+.container {
   width: 100%;
+  max-width: var(--app-container-width);
   margin: 0 auto;
 }
 
-.hero-badge {
-  margin-bottom: 26px;
+.hero-grid {
+  align-items: center;
 }
 
-.hero-content h1 {
-  margin: 0;
+.hero-copy h1 {
+  margin: 24px 0 0;
   color: var(--home-text);
-  font-size: clamp(48px, 7.4vw, 104px);
-  line-height: 1.03;
+  font-size: clamp(44px, 8vw, 104px);
+  line-height: 1.04;
   letter-spacing: -0.05em;
 }
 
-.hero-content h1 span {
-  display: block;
+.hero-copy p,
+.section-title p,
+.feature-copy p,
+.cta-card p {
+  color: var(--home-muted);
+  font-size: clamp(14px, 1.7vw, 17px);
+  line-height: 1.9;
 }
 
 .hero-role {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  align-items: center;
-  margin-top: 26px;
-  font-size: clamp(22px, 3vw, 34px);
+  margin-top: 24px;
+  font-size: clamp(21px, 3vw, 34px);
+  font-weight: 900;
 }
 
-.role-label {
+.hero-role span {
   color: var(--home-muted);
-  font-weight: 800;
 }
 
 .hero-role strong {
   color: var(--home-primary);
-  text-shadow: 0 0 28px rgb(var(--home-primary-rgb) / 0.35);
-}
-
-.hero-description {
-  max-width: 680px;
-  margin: 26px 0 0;
-  color: var(--home-muted);
-  font-size: 17px;
-  line-height: 2;
 }
 
 .hero-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
-  margin-top: 34px;
+  margin-top: 32px;
 }
 
-.hero-stats {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
-  max-width: 560px;
-  margin-top: 42px;
+.stats-grid {
+  margin-top: 40px;
+}
+
+.stat-card,
+.quick-card,
+.feature-card,
+.cta-card,
+.profile-card,
+.chip {
+  border: 1px solid var(--home-border);
+  background: var(--home-card);
+  backdrop-filter: blur(18px);
+  box-shadow:
+    0 24px 80px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 var(--home-border);
 }
 
 .stat-card {
   padding: 18px;
-  border: 1px solid var(--home-border);
   border-radius: 22px;
-  background: var(--home-card-bg);
-  backdrop-filter: blur(18px);
-  box-shadow:
-    0 18px 60px rgba(0, 0, 0, 0.16),
-    inset 0 1px 0 var(--home-border);
 }
 
 .stat-card strong {
   display: block;
   color: var(--home-text);
   font-size: 30px;
-  line-height: 1;
 }
 
-.stat-card small {
-  display: block;
-  margin-top: 8px;
+.stat-card span {
   color: var(--home-muted);
   font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  font-weight: 800;
   text-transform: uppercase;
 }
 
 .hero-visual {
   position: relative;
-  min-height: 560px;
+  min-height: clamp(360px, 48vw, 560px);
   display: grid;
   place-items: center;
 }
 
-.visual-ring {
+.ring {
   position: absolute;
   border: 1px solid rgb(var(--home-primary-rgb) / 0.22);
   border-radius: 999px;
-  animation: rotateRing 20s linear infinite;
+  animation: rotateRing 22s linear infinite;
 }
 
 .ring-1 {
-  width: 500px;
-  height: 500px;
+  width: min(90vw, 500px);
+  height: min(90vw, 500px);
 }
 
 .ring-2 {
-  width: 390px;
-  height: 390px;
+  width: min(70vw, 380px);
+  height: min(70vw, 380px);
   border-style: dashed;
-  animation-duration: 28s;
   animation-direction: reverse;
-}
-
-.ring-3 {
-  width: 270px;
-  height: 270px;
-  border-color: rgb(var(--home-secondary-rgb) / 0.24);
-  animation-duration: 16s;
 }
 
 .profile-card {
   position: relative;
   z-index: 2;
   width: min(100%, 380px);
-  padding: 26px;
-  border: 1px solid var(--home-border);
+  padding: clamp(22px, 4vw, 28px);
   border-radius: 32px;
-  background:
-    linear-gradient(135deg, rgb(var(--home-primary-rgb) / 0.16), transparent), var(--home-card-bg);
-  box-shadow:
-    0 32px 100px rgba(0, 0, 0, 0.28),
-    0 0 60px rgb(var(--home-primary-rgb) / 0.12),
-    inset 0 1px 0 var(--home-border);
-  backdrop-filter: blur(22px);
   animation: floatCard 5s ease-in-out infinite;
 }
 
@@ -780,7 +714,6 @@ function hexToRgb(hex) {
   font-size: 26px;
   font-weight: 900;
   background: linear-gradient(135deg, var(--home-primary), var(--home-secondary));
-  box-shadow: 0 16px 36px rgb(var(--home-primary-rgb) / 0.28);
 }
 
 .profile-top strong {
@@ -789,53 +722,42 @@ function hexToRgb(hex) {
   font-size: 20px;
 }
 
-.profile-top small {
-  display: block;
-  margin-top: 5px;
+.profile-top span {
   color: var(--home-muted);
   font-size: 13px;
 }
 
-.profile-code {
-  margin-top: 28px;
-  padding: 20px;
-  border: 1px solid var(--home-border);
-  border-radius: 22px;
+.code-box {
+  margin-top: 24px;
+  padding: 18px;
+  border-radius: 20px;
+  color: var(--home-text);
   background: rgba(0, 0, 0, 0.16);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 13px;
+  font-family: monospace;
   line-height: 1.8;
 }
 
-.code-key {
+.code-primary {
   color: var(--home-primary);
 }
 
-.code-name {
-  color: var(--home-text);
-}
-
-.code-string {
+.code-secondary {
   color: var(--home-secondary);
 }
 
-.profile-meter {
-  margin-top: 24px;
+.meter {
+  margin-top: 22px;
 }
 
-.meter-head {
+.meter > div:first-child {
   display: flex;
   justify-content: space-between;
   color: var(--home-muted);
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 800;
 }
 
-.meter-head strong {
-  color: var(--home-text);
-}
-
-.meter-bar {
+.meter-line {
   overflow: hidden;
   height: 10px;
   margin-top: 10px;
@@ -843,191 +765,93 @@ function hexToRgb(hex) {
   background: rgb(var(--home-primary-rgb) / 0.12);
 }
 
-.meter-bar span {
+.meter-line span {
   display: block;
   width: 98%;
   height: 100%;
   border-radius: inherit;
   background: linear-gradient(90deg, var(--home-primary), var(--home-secondary));
-  box-shadow: 0 0 22px rgb(var(--home-primary-rgb) / 0.55);
-  animation: meterGrow 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: meterGrow 1.6s ease;
 }
 
-.floating-chip {
+.chip {
   position: absolute;
   z-index: 3;
-  display: inline-flex;
-  gap: 8px;
-  align-items: center;
-  padding: 12px 16px;
-  border: 1px solid var(--home-border);
+  padding: 10px 14px;
   border-radius: 999px;
-  color: var(--home-text);
-  background: var(--home-card-bg);
-  box-shadow:
-    0 18px 50px rgba(0, 0, 0, 0.18),
-    0 0 28px rgb(var(--home-primary-rgb) / 0.1);
-  backdrop-filter: blur(18px);
   font-size: 13px;
   font-weight: 900;
   animation: floatChip 4.5s ease-in-out infinite;
 }
 
-.chip-vue {
-  top: 72px;
-  left: 22px;
+.chip-1 {
+  top: 10%;
+  left: 0;
 }
 
-.chip-ui {
-  top: 120px;
-  right: 6px;
+.chip-2 {
+  top: 20%;
+  right: 0;
   animation-delay: -1s;
 }
 
-.chip-pinia {
-  bottom: 126px;
-  left: 0;
+.chip-3 {
+  bottom: 22%;
+  left: 4%;
   animation-delay: -2s;
 }
 
-.chip-animation {
-  right: 28px;
-  bottom: 76px;
+.chip-4 {
+  right: 4%;
+  bottom: 12%;
   animation-delay: -3s;
 }
 
-.scroll-guide {
-  position: absolute;
-  left: 50%;
-  bottom: 28px;
-  display: grid;
-  place-items: center;
-  gap: 8px;
-  color: var(--home-muted);
-  font-size: 11px;
-  font-weight: 900;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  transform: translateX(-50%);
-}
-
-.scroll-guide div {
-  position: relative;
-  width: 2px;
-  height: 42px;
-  overflow: hidden;
-  border-radius: 999px;
-  background: rgb(var(--home-primary-rgb) / 0.18);
-}
-
-.scroll-guide div::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: 0;
-  width: 100%;
-  height: 50%;
-  border-radius: inherit;
-  background: var(--home-primary);
-  animation: scrollLine 1.6s ease-in-out infinite;
-}
-
-.quick-section,
-.feature-section {
-  padding: 112px 24px;
-}
-
-.section-heading {
+.section-title {
   max-width: 820px;
   margin: 0 auto 56px;
   text-align: center;
 }
 
-.section-heading h2 {
+.section-title h2,
+.feature-copy h2,
+.cta-card h2 {
   margin: 22px 0 14px;
+  color: var(--home-text);
   font-size: clamp(34px, 5vw, 68px);
   line-height: 1.12;
-}
-
-.section-heading p {
-  margin: 0;
-  color: var(--home-muted);
-  font-size: 16px;
-  line-height: 1.9;
-}
-
-.quick-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 22px;
-  max-width: 1220px;
-  margin: 0 auto;
+  letter-spacing: -0.04em;
 }
 
 .quick-card {
   position: relative;
-  overflow: hidden;
-  min-height: 280px;
+  display: block;
+  min-height: 270px;
   padding: 26px;
-  border: 1px solid var(--home-border);
   border-radius: 30px;
   color: inherit;
-  background: var(--home-card-bg);
   text-decoration: none;
-  box-shadow:
-    0 24px 80px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 var(--home-border);
-  backdrop-filter: blur(18px);
   transition:
-    transform 0.35s ease,
-    background 0.35s ease,
-    box-shadow 0.35s ease;
+    transform 0.3s ease,
+    background 0.3s ease;
 }
 
-.quick-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    circle at top right,
-    rgb(var(--home-primary-rgb) / 0.18),
-    transparent 42%
-  );
-  opacity: 0;
-  transition: opacity 0.35s ease;
+.quick-card:hover,
+.feature-card:hover {
+  transform: translateY(-8px);
+  background: var(--home-card-hover);
 }
 
-.quick-card:hover {
-  transform: translateY(-10px) rotateX(2deg);
-  background: var(--home-card-bg-hover);
-  box-shadow:
-    0 34px 100px rgba(0, 0, 0, 0.28),
-    0 0 40px rgb(var(--home-primary-rgb) / 0.14);
-}
-
-.quick-card:hover::before {
-  opacity: 1;
-}
-
-.quick-icon {
-  position: relative;
-  z-index: 1;
+.quick-icon,
+.feature-icon {
   display: grid;
   place-items: center;
-  width: 58px;
-  height: 58px;
-  margin-bottom: 24px;
+  width: 56px;
+  height: 56px;
+  margin-bottom: 20px;
   border-radius: 20px;
   background: rgb(var(--home-primary-rgb) / 0.12);
   font-size: 28px;
-}
-
-.quick-card span,
-.quick-card h3,
-.quick-card p,
-.quick-arrow {
-  position: relative;
-  z-index: 1;
 }
 
 .quick-card span {
@@ -1038,36 +862,32 @@ function hexToRgb(hex) {
   text-transform: uppercase;
 }
 
-.quick-card h3 {
+.quick-card h3,
+.feature-card h3 {
   margin: 10px 0 12px;
   color: var(--home-text);
-  font-size: 24px;
+  font-size: 23px;
 }
 
-.quick-card p {
-  margin: 0;
+.quick-card p,
+.feature-card p {
   color: var(--home-muted);
-  font-size: 14px;
   line-height: 1.8;
 }
 
-.quick-arrow {
+.quick-card strong {
   position: absolute;
   right: 24px;
   bottom: 20px;
   color: var(--home-primary);
   font-size: 28px;
-  transform: translateX(0);
-  transition: transform 0.3s ease;
-}
-
-.quick-card:hover .quick-arrow {
-  transform: translateX(6px);
 }
 
 .marquee-section {
+  position: relative;
+  z-index: 1;
   overflow: hidden;
-  padding: 28px 0;
+  padding: 26px 0;
   border-block: 1px solid var(--home-border);
   background: rgb(var(--home-primary-rgb) / 0.055);
 }
@@ -1091,140 +911,31 @@ function hexToRgb(hex) {
   padding: 0 22px;
   border: 1px solid var(--home-border);
   border-radius: 999px;
-  color: var(--home-text);
-  background: var(--home-card-bg);
-  font-size: 14px;
+  background: var(--home-card);
   font-weight: 900;
   white-space: nowrap;
 }
 
-.feature-container {
-  display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-  gap: 52px;
-  align-items: center;
-  max-width: 1220px;
-  margin: 0 auto;
-}
-
-.feature-copy h2 {
-  margin: 24px 0 20px;
-  color: var(--home-text);
-  font-size: clamp(38px, 5vw, 72px);
-  line-height: 1.12;
-  letter-spacing: -0.04em;
-}
-
-.feature-copy p {
-  margin: 0;
-  color: var(--home-muted);
-  font-size: 16px;
-  line-height: 2;
-}
-
-.feature-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
-  margin-top: 32px;
-}
-
-.feature-cards {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 22px;
-}
-
 .feature-card {
   border-radius: 28px;
-  background: var(--home-card-bg);
-  box-shadow:
-    0 24px 80px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 var(--home-border);
-  backdrop-filter: blur(18px);
-  transition:
-    transform 0.35s ease,
-    background 0.35s ease;
-}
-
-.feature-card:hover {
-  transform: translateY(-8px);
-  background: var(--home-card-bg-hover);
-}
-
-.feature-icon {
-  display: grid;
-  place-items: center;
-  width: 54px;
-  height: 54px;
-  margin-bottom: 18px;
-  border-radius: 18px;
-  background: rgb(var(--home-primary-rgb) / 0.12);
-  font-size: 26px;
-}
-
-.feature-card h3 {
-  margin: 0 0 12px;
-  color: var(--home-text);
-  font-size: 22px;
-}
-
-.feature-card p {
-  margin: 0;
-  color: var(--home-muted);
-  font-size: 14px;
-  line-height: 1.8;
 }
 
 .cta-section {
-  padding: 40px 24px 120px;
+  padding-top: 32px;
 }
 
 .cta-card {
-  display: flex;
-  justify-content: space-between;
-  gap: 32px;
-  align-items: center;
-  max-width: 1220px;
-  margin: 0 auto;
-  padding: 42px;
-  border: 1px solid var(--home-border);
   border-radius: 34px;
-  background:
-    radial-gradient(circle at top right, rgb(var(--home-primary-rgb) / 0.22), transparent 38%),
-    var(--home-card-bg);
-  box-shadow:
-    0 34px 110px rgba(0, 0, 0, 0.28),
-    inset 0 1px 0 var(--home-border);
-  backdrop-filter: blur(22px);
-}
-
-.cta-card h2 {
-  margin: 20px 0 12px;
-  color: var(--home-text);
-  font-size: clamp(30px, 4vw, 54px);
-  line-height: 1.18;
-}
-
-.cta-card p {
-  max-width: 680px;
-  margin: 0;
-  color: var(--home-muted);
-  font-size: 15px;
-  line-height: 1.9;
 }
 
 .cta-actions {
-  display: flex;
-  flex: 0 0 auto;
-  flex-wrap: wrap;
-  gap: 12px;
+  height: 100%;
 }
 
 .reveal-item {
   opacity: 0;
-  transform: translateY(52px) scale(0.97);
-  filter: blur(10px);
+  transform: translateY(44px);
+  filter: blur(8px);
   transition:
     opacity 0.8s ease,
     transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
@@ -1234,28 +945,21 @@ function hexToRgb(hex) {
 
 .reveal-item.is-visible {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: translateY(0);
   filter: blur(0);
 }
 
 .word-fade-enter-active,
 .word-fade-leave-active {
   transition:
-    opacity 0.35s ease,
-    transform 0.35s ease,
-    filter 0.35s ease;
+    opacity 0.3s ease,
+    transform 0.3s ease;
 }
 
-.word-fade-enter-from {
-  opacity: 0;
-  transform: translateY(14px);
-  filter: blur(8px);
-}
-
+.word-fade-enter-from,
 .word-fade-leave-to {
   opacity: 0;
-  transform: translateY(-14px);
-  filter: blur(8px);
+  transform: translateY(12px);
 }
 
 @keyframes floatOrb {
@@ -1264,7 +968,7 @@ function hexToRgb(hex) {
   }
 
   to {
-    transform: translate3d(40px, -30px, 0) scale(1.08);
+    transform: translate3d(34px, -28px, 0) scale(1.08);
   }
 }
 
@@ -1275,24 +979,14 @@ function hexToRgb(hex) {
 }
 
 @keyframes floatCard {
-  0%,
-  100% {
-    transform: translateY(0) rotate(0deg);
-  }
-
   50% {
-    transform: translateY(-16px) rotate(1deg);
+    transform: translateY(-14px);
   }
 }
 
 @keyframes floatChip {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
   50% {
-    transform: translateY(-14px);
+    transform: translateY(-12px);
   }
 }
 
@@ -1306,184 +1000,9 @@ function hexToRgb(hex) {
   }
 }
 
-@keyframes scrollLine {
-  from {
-    transform: translateY(0);
-  }
-
-  to {
-    transform: translateY(220%);
-  }
-}
-
 @keyframes marquee {
   to {
     transform: translateX(-50%);
-  }
-}
-
-@media (max-width: 1080px) {
-  .hero-container,
-  .feature-container {
-    grid-template-columns: 1fr;
-  }
-
-  .hero-visual {
-    min-height: 500px;
-  }
-
-  .quick-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .cta-card {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-}
-
-@media (max-width: 760px) {
-  .hero-section {
-    min-height: auto;
-    padding: 86px 18px 72px;
-  }
-
-  .quick-section,
-  .feature-section {
-    padding: 86px 18px;
-  }
-
-  .cta-section {
-    padding: 20px 18px 86px;
-  }
-
-  .hero-container {
-    gap: 42px;
-  }
-
-  .hero-description {
-    font-size: 15px;
-  }
-
-  .hero-actions,
-  .feature-actions,
-  .cta-actions {
-    flex-direction: column;
-  }
-
-  .hero-actions .n-button,
-  .feature-actions .n-button,
-  .cta-actions .n-button {
-    width: 100%;
-  }
-
-  .hero-stats {
-    grid-template-columns: 1fr;
-  }
-
-  .hero-visual {
-    min-height: 420px;
-  }
-
-  .ring-1 {
-    width: 360px;
-    height: 360px;
-  }
-
-  .ring-2 {
-    width: 290px;
-    height: 290px;
-  }
-
-  .ring-3 {
-    width: 210px;
-    height: 210px;
-  }
-
-  .floating-chip {
-    padding: 10px 13px;
-    font-size: 12px;
-  }
-
-  .chip-vue {
-    top: 34px;
-    left: 0;
-  }
-
-  .chip-ui {
-    top: 72px;
-    right: 0;
-  }
-
-  .chip-pinia {
-    bottom: 86px;
-  }
-
-  .chip-animation {
-    right: 0;
-    bottom: 42px;
-  }
-
-  .quick-grid,
-  .feature-cards {
-    grid-template-columns: 1fr;
-  }
-
-  .section-heading {
-    text-align: left;
-  }
-
-  .cta-card {
-    padding: 28px;
-    border-radius: 28px;
-  }
-}
-
-@media (max-width: 480px) {
-  .hero-content h1 {
-    font-size: clamp(42px, 15vw, 58px);
-  }
-
-  .hero-role {
-    font-size: 22px;
-  }
-
-  .profile-card {
-    padding: 22px;
-    border-radius: 28px;
-  }
-
-  .profile-code {
-    font-size: 12px;
-  }
-
-  .scroll-guide {
-    display: none;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .orb,
-  .visual-ring,
-  .profile-card,
-  .floating-chip,
-  .scroll-guide div::before,
-  .marquee-track {
-    animation: none;
-  }
-
-  .reveal-item,
-  .quick-card,
-  .feature-card,
-  .word-fade-enter-active,
-  .word-fade-leave-active {
-    transition: none;
-  }
-
-  .reveal-item {
-    opacity: 1;
-    transform: none;
-    filter: none;
   }
 }
 </style>
